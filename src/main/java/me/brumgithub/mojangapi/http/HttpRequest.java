@@ -43,9 +43,10 @@ public class HttpRequest {
             int status = connection.getResponseCode();
 
             reader =
-                    status > 299 ?
+                    status > 399 ?
                     new BufferedReader(new InputStreamReader(connection.getErrorStream())) :
                     new BufferedReader(new InputStreamReader(connection.getInputStream()));
+
             while ((line = reader.readLine()) != null) {
                 responseData.append(line);
             }

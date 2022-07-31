@@ -1,24 +1,21 @@
 package me.brumgithub.mojangapi.http;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.sun.jdi.request.InvalidRequestStateException;
 
 public class ResponseModel {
 
-    private final Map<String, String> responseData = new HashMap<>();
+    private final String responseData;
     private final int status;
 
     public ResponseModel(String responseData, int status) {
-        System.out.println(responseData);
-        responseData = responseData.replace(" ", "").replace("{", "").replace("}", "");
-        for (String str : responseData.split(",")) {
-            String[] keyValue = str.split(":");
-            this.responseData.put(keyValue[0].replace("\"", ""), keyValue[1].replace("\"", ""));
-        }
+        this.responseData = responseData;
         this.status = status;
+        if (status > 399) {
+            throw new InvalidRequestStateException("Error: " + responseData);
+        }
     }
 
-    public Map<String, String> getResponseData() {
+    public String getResponseData() {
         return responseData;
     }
 
